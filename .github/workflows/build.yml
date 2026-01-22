@@ -2,8 +2,8 @@ name: Build CLI
 
 on:
   push:
-    tags:
-      - "v*.*.*"   # ex: v1.3.0
+    branches:
+      - main
 
 jobs:
   build:
@@ -18,16 +18,12 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install deps
+      - name: Install dependencies
         run: |
           pip install -r requirements.txt
           pip install pyinstaller
 
-      - name: Build exe
+      - name: Read version from version.py
+        id: read_version
         run: |
-          pyinstaller --onefile main.py
-
-      - name: Upload release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: dist/main.exe
+          VNUM=$(pytho
